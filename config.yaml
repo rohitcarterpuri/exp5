@@ -1,0 +1,42 @@
+data:
+  test_size: 0.2
+  validation_size: 0.2
+  random_state: 42
+  sampling_strategy: 'smote'  # smote, random_oversample, none
+  
+model:
+  architecture:
+    hidden_layers: [128, 64, 32]
+    activation: 'relu'
+    output_activation: 'sigmoid'
+    dropout_rate: 0.3
+    batch_normalization: true
+    
+training:
+  batch_size: 32
+  epochs: 100
+  learning_rate: 0.001
+  optimizer: 'adam'
+  loss: 'binary_crossentropy'
+  
+cross_validation:
+  n_folds: 5
+  scoring: ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']
+  
+grid_search:
+  param_grid:
+    batch_size: [16, 32, 64]
+    learning_rate: [0.001, 0.0005, 0.0001]
+    hidden_layers: [[64, 32], [128, 64], [256, 128, 64]]
+    dropout_rate: [0.2, 0.3, 0.4]
+    
+checkpoint:
+  save_best_only: true
+  monitor: 'val_auc'
+  mode: 'max'
+  save_freq: 'epoch'
+  checkpoint_dir: 'experiments/checkpoints'
+  
+logging:
+  log_dir: 'experiments/logs'
+  tensorboard: true
